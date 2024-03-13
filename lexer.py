@@ -1,0 +1,51 @@
+from tokens import Integer, Float, Operator
+
+# create variableName = value
+
+class Lexer:
+    digits = set(["1","2","3","4","5","6","7","8","9"])
+    
+    operations = set(["/","*","-","+","(",")"])
+    stopwords = [" "]
+
+    def __init__(self, text):
+        self.text = text
+        self.idx = 0
+        self.tokens = []
+        self.char = self.text[self.idx]
+        self.token = None
+
+    def tokenize(self):
+        print(type(self.idx), type(len(self.text)))
+        while self.idx < len(self.text):
+            if self.char in Lexer.digits:
+                self.token = self.extract_number()
+            elif self.char in Lexer.operations:
+                self.token = Operator(self.char)
+                self.move()
+            elif self.char in Lexer.stopwords:
+                self.move()
+                continue
+            self.tokens.append(self.token)
+        return self.tokens
+
+    def extract_number(self):
+        number = ""
+        isFloat = False
+        while (self.char in Lexer.digits or self.char == ".") and (self.idx < len(self.text)):
+            if self.char == ".":
+                isFloat = True
+            number += self.char
+            self.move()
+        return Integer(number) if not isFloat else Float(number) 
+
+    def move(self):
+        self.idx += 1
+        if self.idx < len(self.text):
+            self.char = self.text[self.idx]
+
+
+
+
+# Lexer = Lexer("5 + 3")
+# Lexer.tokenize()
