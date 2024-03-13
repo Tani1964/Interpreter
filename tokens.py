@@ -17,6 +17,14 @@ class Integer(Token):
 class Float(Token):
     def __init__(self, value):
         super().__init__("FLOAT", value)
+        
+class Keyword(Token):
+    def __init__(self, value):
+        super().__init__("KEYWORD", value)
+        
+class Variable(Token):
+    def __init__(self, value):
+        super().__init__("VARIABLE", value)
 
 # class String(Token):
 #     pass
